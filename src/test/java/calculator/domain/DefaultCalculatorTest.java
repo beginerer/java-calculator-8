@@ -1,6 +1,5 @@
-package calculator;
+package calculator.domain;
 
-import calculator.domain.Calculator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ public class DefaultCalculatorTest {
     }
 
 
-
     @Test
     @DisplayName("음수가 입력으로 주어질 경우 예외가 발생한다.")
     public void test2() {
@@ -37,7 +35,7 @@ public class DefaultCalculatorTest {
         Calculator calculator = new Calculator();
         String input ="1,2)3";
         Assertions.assertThatThrownBy(() -> calculator.calculate(input))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 }

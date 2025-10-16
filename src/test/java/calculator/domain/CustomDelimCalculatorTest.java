@@ -1,9 +1,9 @@
-package calculator;
+package calculator.domain;
 
-import calculator.domain.Calculator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 
 class CustomDelimCalculatorTest {
 
@@ -47,7 +47,7 @@ class CustomDelimCalculatorTest {
         String input = "// \\n1,2,3";
 
         Assertions.assertThatThrownBy(() -> calculator.calculate(input))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -57,7 +57,7 @@ class CustomDelimCalculatorTest {
         String input ="//3\\n1,2,3";
 
         Assertions.assertThatThrownBy(() -> calculator.calculate(input))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -66,6 +66,8 @@ class CustomDelimCalculatorTest {
         Calculator calculator = new Calculator();
         String input = "//\n\\n1,2,3,";
         Assertions.assertThatThrownBy(() -> calculator.calculate(input))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
+
+
 }

@@ -10,7 +10,7 @@ public class InputView {
         String input = Console.readLine();
 
         if(input == null || input.isEmpty())
-            throw new IllegalStateException("[ERROR] 입력이 비어있습니다.");
+            throw new IllegalArgumentException("[ERROR] 입력이 비어있습니다.");
 
         return input;
     }

@@ -26,7 +26,7 @@ public class Calculator {
     public int calculate(String input) {
 
         if(input == null || input.isEmpty())
-            throw new IllegalStateException("[ERROR] 입력이 비어있습니다.");
+            throw new IllegalArgumentException("[ERROR] 입력이 비어있습니다.");
 
         String regex = defaultDelimRegex;
         Matcher matcher = pattern.matcher(input);
@@ -54,7 +54,7 @@ public class Calculator {
             try {
                 output[i] = Integer.parseInt(split[i]);
             }catch (NumberFormatException e) {
-                throw new IllegalStateException("[ERROR] 구분자를 제외한 문자가 존재합니다. value=%s".
+                throw new IllegalArgumentException("[ERROR] 구분자를 제외한 문자가 존재합니다. value=%s".
                         formatted(split[i]));
             }
         }
@@ -64,16 +64,16 @@ public class Calculator {
 
     private void validateCustomDelimiter(String customDelimiter) {
         if(customDelimiter == null || customDelimiter.isEmpty())
-            throw new IllegalStateException("[ERROR] customDelimiter가 null 또는 공백입니다." +
+            throw new IllegalArgumentException("[ERROR] customDelimiter가 null 또는 공백입니다." +
                     "customDelimiter=%s".formatted(customDelimiter));
 
         for(int i=0; i<customDelimiter.length(); i++) {
             char c = customDelimiter.charAt(i);
             if(Character.isDigit(c))
-                throw new IllegalStateException("[ERROR] 커스텀 구분자로 숫자가 올 수 없습니다. value=%s".
+                throw new IllegalArgumentException("[ERROR] 커스텀 구분자로 숫자가 올 수 없습니다. value=%s".
                         formatted(c));
             if (c == ' ')
-                throw new IllegalStateException("[ERROR] 커스텀 구분자로 공백이 올 수 없습니다.");
+                throw new IllegalArgumentException("[ERROR] 커스텀 구분자로 공백이 올 수 없습니다.");
         }
     }
 
