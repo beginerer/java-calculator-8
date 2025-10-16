@@ -81,7 +81,7 @@ public class Calculator {
     private void validateAllNumberPositive(int[] numbers) {
         for(int i=0; i<numbers.length; i++) {
             if(numbers[i] < 0)
-                throw new IllegalStateException("[ERROR] 음수는 입력할 수 없습니다. value=%s".
+                throw new IllegalArgumentException("[ERROR] 음수는 입력할 수 없습니다. value=%s".
                         formatted(numbers[i]));
         }
     }

@@ -68,8 +68,4 @@ class CustomDelimCalculatorTest {
         Assertions.assertThatThrownBy(() -> calculator.calculate(input))
                 .isInstanceOf(IllegalStateException.class);
     }
-
-
-
-
 }
