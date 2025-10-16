@@ -9,9 +9,9 @@ import java.util.regex.Pattern;
 public class Calculator {
 
 
-    public final String defaultRegex = ",|:";
+    public final String defaultDelimRegex = ",|:";
 
-    public final String customRegex = "^\\/\\/([^\\d ]+)\\\\n";
+    public final String customRegex = "^\\/\\/([^\\d\\s]+)\\\\n";
 
     public final Pattern pattern;
 
@@ -22,35 +22,28 @@ public class Calculator {
     }
 
 
+
     public int calculate(String input) {
 
         if(input == null || input.isEmpty())
             throw new IllegalStateException("[ERROR] 입력이 비어있습니다.");
 
-        String regex = this.defaultRegex;
+        String regex = defaultDelimRegex;
+        Matcher matcher = pattern.matcher(input);
 
-        if(hasCustomDelimiter(input)) {
-            String customDelimiter = extractCustomDelimiter(input);
-            regex += "|" + customDelimiter;
+        if(hasCustomDelimiter(matcher)) {
+            String customDelimiter = matcher.group(1);
+            validateCustomDelimiter(customDelimiter);
+
+            regex += "|" + Pattern.quote(customDelimiter);
+            input = input.substring(matcher.end());
         }
 
-        String[] split = input.split(regex);
-        int[] numbers = convertToInteger(split);
+        String[] tokens = input.split(regex);
+        int[] numbers = convertToInteger(tokens);
         validateAllNumberPositive(numbers);
 
         return Arrays.stream(numbers).sum();
-    }
-
-
-
-    private String extractCustomDelimiter(String input) {
-        Matcher matcher = pattern.matcher(input);
-        String customDelimiter = matcher.group(1);
-
-        if(customDelimiter == null || customDelimiter.isEmpty())
-            throw new IllegalStateException("[ERROR] customDelimiter가 null 또는 공백입니다." +
-                    "customDelimiter=%s".formatted(customDelimiter));
-        return customDelimiter;
     }
 
 
@@ -69,9 +62,19 @@ public class Calculator {
     }
 
 
-    private boolean hasCustomDelimiter(String format) {
-        Matcher matcher = pattern.matcher(format);
-        return matcher.matches();
+    private void validateCustomDelimiter(String customDelimiter) {
+        if(customDelimiter == null || customDelimiter.isEmpty())
+            throw new IllegalStateException("[ERROR] customDelimiter가 null 또는 공백입니다." +
+                    "customDelimiter=%s".formatted(customDelimiter));
+
+        for(int i=0; i<customDelimiter.length(); i++) {
+            char c = customDelimiter.charAt(i);
+            if(Character.isDigit(c))
+                throw new IllegalStateException("[ERROR] 커스텀 구분자로 숫자가 올 수 없습니다. value=%s".
+                        formatted(c));
+            if (c == ' ')
+                throw new IllegalStateException("[ERROR] 커스텀 구분자로 공백이 올 수 없습니다.");
+        }
     }
 
 
@@ -82,4 +85,9 @@ public class Calculator {
                         formatted(numbers[i]));
         }
     }
+
+    private boolean hasCustomDelimiter(Matcher matcher) {
+        return matcher.lookingAt();
+    }
+
 }
