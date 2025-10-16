@@ -37,4 +37,15 @@ public class DefaultCalculatorTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
+    @DisplayName("오버플로우가 발생할 경우 예외가 발생한다.")
+    public void test4() {
+        Calculator calculator = new Calculator();
+        String input = Integer.MAX_VALUE +"," + Integer.MAX_VALUE;
+
+        Assertions.assertThatThrownBy(() -> calculator.calculate(input))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("[ERROR] 오버플로우 예외가 발생했습니다.");
+    }
+
 }

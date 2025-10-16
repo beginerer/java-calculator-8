@@ -1,7 +1,6 @@
 package calculator.domain;
 
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,17 +8,11 @@ import java.util.regex.Pattern;
 public class Calculator {
 
 
-    public final String defaultDelimRegex = ",|:";
+    private static final String defaultDelimRegex = ",|:";
 
-    public final String customRegex = "^\\/\\/([^\\d\\s]+)\\\\n";
+    private static final String customRegex = "^\\/\\/([^\\d\\s]+)\\\\n";
 
-    public final Pattern pattern;
-
-
-
-    public Calculator() {
-        this.pattern = Pattern.compile(customRegex);
-    }
+    private static final Pattern pattern = Pattern.compile(customRegex);
 
 
 
@@ -43,7 +36,22 @@ public class Calculator {
         int[] numbers = convertToInteger(tokens);
         validateAllNumberPositive(numbers);
 
-        return Arrays.stream(numbers).sum();
+        int result = calculate(numbers);
+
+        return result;
+    }
+
+    private int calculate(int[] numbers) {
+        int result = 0;
+
+        try {
+            for(int num : numbers) {
+                result = Math.addExact(result, num);
+            }
+        }catch (ArithmeticException e) {
+            throw new IllegalStateException("[ERROR] 오버플로우 예외가 발생했습니다.");
+        }
+        return result;
     }
 
 
