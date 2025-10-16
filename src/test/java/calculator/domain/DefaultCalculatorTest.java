@@ -18,7 +18,6 @@ public class DefaultCalculatorTest {
         Assertions.assertThat(sum).isEqualTo(sum);
     }
 
-
     @Test
     @DisplayName("음수가 입력으로 주어질 경우 예외가 발생한다.")
     public void test2() {
