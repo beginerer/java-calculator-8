@@ -18,8 +18,11 @@ public class Calculator {
 
     public int calculate(String input) {
 
-        if(input == null || input.isEmpty())
-            throw new IllegalArgumentException("[ERROR] 입력이 비어있습니다.");
+        if(input == null)
+            throw new IllegalArgumentException("[ERROR] 입력이 null입니다.");
+
+        if(input.isEmpty())
+            return 0;
 
         String regex = defaultDelimRegex;
         Matcher matcher = pattern.matcher(input);

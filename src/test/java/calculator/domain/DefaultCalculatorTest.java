@@ -48,4 +48,14 @@ public class DefaultCalculatorTest {
                 .hasMessage("[ERROR] 오버플로우 예외가 발생했습니다.");
     }
 
+    @Test
+    @DisplayName("공백이면 0을 반환한다.")
+    public void test5() {
+        Calculator calculator = new Calculator();
+        String input ="";
+
+        int result = calculator.calculate(input);
+        Assertions.assertThat(result).isEqualTo(0);
+    }
+
 }
